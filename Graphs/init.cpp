@@ -1,5 +1,6 @@
 #include<iostream>
 #include<list>
+#include <queue>
 using namespace std;
 
 class Graph {
@@ -28,14 +29,40 @@ public:
 			cout<<endl;
 		}
 	}
+	void bfs(int src) {
+		//data structures
+		//1. queue
+		//2. visited array
+		queue<int> q;
+		bool* visited = new bool[v]{0};
+
+		q.push(src);
+		visited[src] = true;
+
+		while(!q.empty()) {
+			int f = q.front();
+			q.pop();
+			cout<<f<<" ";
+			//visit it's neighbour elements
+			for(int nbr: l[f]) {
+				if(!visited[nbr]) {
+					q.push(nbr);
+					visited[nbr] = true;
+				}
+			}
+		}
+	}
 };
 
 int main() {
 	Graph g(4);
 	g.addEdge(0, 1);
-	g.addEdge(0, 2);
-	g.addEdge(2, 3);
+	g.addEdge(0, 3);
 	g.addEdge(1, 2);
-	g.adjList();
+	g.addEdge(2, 3);
+	g.addEdge(3, 4);
+	g.addEdge(4, 5);
+	// g.adjList();
+	g.bfs(0);
 	return 0;
 }

@@ -1,22 +1,13 @@
-#include<iostream>
+#include <iostream>
 #include<unordered_map>
 using namespace std;
 
-/*generic tree like data structures
-efficient information retrival data structure
-searches in optimal time O(key length) but usages extra space.
-* Important operations :
-- Insert a new word 
-- Search for a given word
-Q. why it called as prefix tree ?
--  Is stores common prefixes in the same branch
-*/
-
-class Node {
+class Node{
 public:
 	char data;
-	unordered_map<char, Node*> m;
 	bool terminal;
+	unordered_map<char, Node*> children;
+
 	Node(char d) {
 		data = d;
 		terminal = false;
@@ -24,60 +15,73 @@ public:
 };
 
 class Trie {
-/*point to the null at the beginning 
-it will not have any children at the beginning 
-data inside this node is null
-you will create this node inside a constructor
-when a trie object is created this root pointer points to empty node
-*/
-Node* root;
-Trie(){
-	root = new Node('\0');
-}
+public:
+	Node* root;
+	int cnt;
 
-void insert(string word) {
-	Node* tmp = root;
-	for(char ch: word) {
-		if(tmp -> m.count(ch) == 0) {
-			Node* n = new Node(ch);
-			tmp -> m[ch] = n;
-		}//we can go to next char and bring
-		tmp = tmp -> m[ch];
+public:
+	Trie() {
+		root = new Node('\0');
+		cnt = 0;
 	}
-	tmp -> terminal = true;
-}
+	void insert(char *w) {
+		Node* temp = root;
+		//At every step we have to check if the current charecter is present or not
+		//basically we are traversing word letter by letter
+		for(int i =0; w[i] != '\0';i++) {
+			//current charecter is exists or not
+			char ch = w[i];
+			if(temp -> children.count(ch)) {
+				//if the value is present then we are going to return the address of that node
+				temp = temp->children[ch];
+			}else{
+				//if the node is not present then we are going to create a temporary node
+				//and then we have to store the address of the new node in the hash map
+				//corespondes to the key given by the user
+				Node* n = new Node(ch);
+				temp -> children[ch] = n;
+				temp = n;
+			}
+		}//we have reach at the leaf node
+		temp->terminal=true;
+	}
+	bool find(char *w){
+		Node* temp = root;
 
-bool search(string word) {
-	Node* tmp = root;
-	for(char ch: word) {
-		if(tmp -> m.count(ch) == 0) {
+		//travering the whole array till bottom
+		for(int i=0;w[i] != '\0';i++) {
+			char ch = w[i];
+		//check if the charecter which we are looking for is present in the map or not
+		if(temp -> children.count(ch)==0) {
 			return false;
+		}else{
+			//return the address of the next node
+			temp = temp->children[ch];
+			cout<<i<<endl;
 		}
-		tmp = tmp -> m[ch];
 	}
-	//if tmp is a terminal node it will return true otherwise false
-	return tmp -> terminal;
-}		
-
+	//return if temp is terminal
+	return temp->terminal;
+	}
 };
 
 int main() {
 
-	string words [] = {"apple", "ape", "no", "news"};
-	Trie t;
-	for(auto w:words) {
-		t.insert(w);
-	}
-	int q;
-	cin>>q;
-	string search_word;
-	while(q--) {
-		cin>>search_word;
-		if(t.search(search_word)) {
-			cout<<"exists"<<endl;
-		}else{
-			cout<<"Not exists"<<endl;
-		}
-	}
+Trie t;
+
+char words[][10] = {"apple","mango","papaya","grapes","orange"};
+char w[10];
+cin>>w;
+
+for(int i=0;i<5;i++) {
+	t.insert(words[i]);
+}
+
+if(t.find(w)) {
+	cout<<"present"<<endl;
+}else{
+	cout<<"absent";
+}
+
 	return 0;
 }
