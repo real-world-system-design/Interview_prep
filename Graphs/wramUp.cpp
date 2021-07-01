@@ -1,5 +1,6 @@
 #include<iostream>
 #include<list>
+#include <queue>
 using namespace std;
 
 class Graph {
@@ -28,6 +29,53 @@ public:
 			cout<<endl;
 		}
 	}
+	void bfs(int src, int dest = -1) {
+		//data structures
+		// 1. queue 2. visited
+		queue<int> q;
+		bool* visited = new bool[v]{0};
+
+		//update the code to get the sortest path from a given source node
+		int *dist = new int[v]{0};
+		int *parent = new int[v];
+
+		for(int i=0;i<v;i++) {
+			dist[i] = -1;
+		}
+
+		q.push(src);
+		visited[src] = true;
+
+		while(!q.empty()){
+			//do some work for every node
+			int f = q.front();
+			// cout<<f<<endl;
+			q.pop();
+
+			//push the neighbours of the node into the list
+			for(auto nbr: l[f]) {
+				if(!visited[nbr]) {
+					q.push(nbr);
+					//we have to update the parent and the distance array
+					parent[nbr] = f;
+					dist[nbr] = dist[f] + 1;
+					visited[nbr] = true;
+				}
+			}
+		}
+		//print the sortest distance
+		for(int i =0;i<v;i++) {
+			cout<<"sotest dist to node "<< i << " is "<<dist[i]<<endl;
+		}
+		if(dest!=-1) {
+			int temp = dest;
+			while(temp != src) {
+				cout<<temp<<"-- ";
+				temp = parent[temp];
+			}
+			cout<<src<<endl;
+		}
+	}
 };
 
 int main() {
@@ -36,6 +84,7 @@ int main() {
 	g.addEdge(0, 2);
 	g.addEdge(2, 3);
 	g.addEdge(1, 2);
-	g.adjList();
+	// g.adjList();
+	g.bfs(0);
 	return 0;
 }
