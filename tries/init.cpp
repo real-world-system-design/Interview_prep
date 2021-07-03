@@ -57,7 +57,6 @@ public:
 		}else{
 			//return the address of the next node
 			temp = temp->children[ch];
-			cout<<i<<endl;
 		}
 	}
 	//return if temp is terminal
