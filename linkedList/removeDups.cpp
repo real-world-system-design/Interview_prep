@@ -33,7 +33,7 @@ void printLL(Node* head) {
 	cout<<"NULL";
 }
 
-void removeDups(Node*&head) {
+Node* removeDups(Node*&head) {
 	//hash to store seen values
 	unordered_set<int> seen;
 
@@ -59,10 +59,11 @@ int main() {
 	insertAtHead(head, 3);
 	insertAtHead(head, 2);
 	insertAtHead(head, 1);
-	cout<<"list before removing duplicates"<<endl;
-	printLL(head);
-	// removeDups(head);
-	cout<<"list after removing duplicates"<<endl;
-	printLL(head);
+	// cout<<"list before removing duplicates"<<endl;
+	// printLL(head);
+	// // removeDups(head);
+	// cout<<"list after removing duplicates"<<endl;
+	// printLL(head);
+	
 	return 0;
 }
