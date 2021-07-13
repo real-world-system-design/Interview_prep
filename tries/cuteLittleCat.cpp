@@ -3,8 +3,6 @@
 using namespace std;
 
 //called as a prefix tree because they store common prefixes in the same branch
-
-
 class Node{
 public:
 	char data;
@@ -48,42 +46,48 @@ public:
 		}//we have reach at the leaf node
 		temp->terminal=true;
 	}
-	bool find(char *w){
-		Node* temp = root;
-
-		//travering the whole array till bottom
-		for(int i=0;w[i] != '\0';i++) {
-			char ch = w[i];
-		//check if the charecter which we are looking for is present in the map or not
-		if(temp -> children.count(ch)==0) {
-			return false;
-		}else{
-			//return the address of the next node
-			temp = temp->children[ch];
-		}
-	}
-	//return if temp is terminal
-	return temp->terminal;
-	}
 };
+
+//starting from the index i till the end and if a word is present we're gonna 
+//store them inside a map
+void searchHelper(Trie t, string document, int i, unordered_map<string, bool> &m) {
+
+	//start from the given index if a word can be found or not
+	Node* temp = t.root;
+	for(int j = i; j < document.length(); j++) {
+		char ch = document[j];
+		if(temp -> children.count(ch)==0) {
+			return;
+		}
+		temp = temp -> children[ch]; 
+	} 
+}
+
+void docSearch(string document, string [] words) {
+	//1. insert these words into a trie object
+	Trie t;
+	for(auto w: words) {
+		t.insert(words);
+	}
+
+	//2. Searching (helper fn)	
+	//map the maps we have found so far
+	unordered_map<string, bool> m;
+	//create all the suffixes starting from the index i till the end
+	for(int i=0; i<document.length();i++) {
+		searchHelper(t, document, i, m)
+	}
+}
 
 int main() {
 
-Trie t;
+//we have to find a give word and it's substrings are present or not in a string
 
-char words[][10] = {"apple","mango","papaya","grapes","orange"};
-char w[10];
-cin>>w;
+	string doc = "kubernetes is a container orchastrain tool which helps 
+	in load balancing, auto scaling, automated roll backs and roll outs,
+	disaster recovery";
 
-for(int i=0;i<5;i++) {
-	t.insert(words[i]);
-}
-
-if(t.find(w)) {
-	cout<<"present"<<endl;
-}else{
-	cout<<"absent";
-}
+	string word[] = ["kubernetes", "docker", "container", "load"];
 
 	return 0;
 }

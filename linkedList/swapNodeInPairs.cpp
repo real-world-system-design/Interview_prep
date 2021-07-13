@@ -23,31 +23,7 @@ void insertAtHead(Node*&head, int data) {
 	head = n;
 }
 
-ListNode* swapPairs(ListNode* head) {
-        if(head == NULL)
-            return NULL;
-        if(head->next == NULL)
-            return head;
-        
-        ListNode* next = head->next;
-        head->next = swapPairs(next->next);
-        next->next = head;
-        
-        return next;
-}
 
-Node* swpaLLPairs(Node*&head) {
-	if(head == NULL) {
-		return head;
-	}
-	if(head -> next == NULL) {
-		return head;
-	}
-	Node* next = head->next;
-	head->next = swpaLLPairs(next->head);
-	next->next = head;
-	return next;	
-} 
 
 void printLL(Node* head) {
 	while(head != NULL) {
