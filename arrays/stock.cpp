@@ -4,20 +4,27 @@
 using namespace std;
 
 int buysell(vector<int> &prices) {
-	int buyVal = 0;
-	int sellVal = 0;
-	for(auto it: prices) {
-		buyVal = min(0, prices[it]);
+	int currSoFar = 0;
+	int maxSoFar = 0;
+
+	for(int i =1; i != prices.size(); i++) {
+		currSoFar = max(0, currSoFar += prices[i] - prices[i-1]);
+		maxSoFar = max(currSoFar, maxSoFar);
 	}
-	// int idx = prices.find(buyVal);
-	for(auto i){
-		max(0, prices[it]);
+	return maxSoFar;
+}
+
+int buysell_II(vector<int> &prices) {
+	int ans = 0;
+
+	for(int i =1; i < prices.size(); i++) {
+		ans += max(0, prices[i] - prices[i-1]);
 	}
-	return sellVal - buyVal;
+	return ans;
 }
 
 int main() {
-	// vector<int> v(1, 5, 7, 2, 3);
-	// cout<<buyVal(v);
+	vector<int> v{7,1,5,3,6,4};
+	cout<<buysell_II(v);
 	return 0;
 }
