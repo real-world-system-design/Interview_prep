@@ -5,24 +5,33 @@ using namespace std;
 int rotated(vector<int> &arr, int key) {
 	int s = 0;
 	int e = arr.size()-1;
+	int mid;
 
 	while(s <= e) {
-		int mid = (s+e)/2;
-		while(arr[s] <= arr[mid]) {
-			if(arr[s] <= key <= arr[mid]) {
-				e = mid -1;
-			}else{
+		mid = (s+e)/2;
+		if(key == arr[mid]) {
+			return mid;
+		}	
+
+		//2 cases
+		if(arr[s] <= arr[mid]) {
+			//left
+			if(key >= arr[s] and key <= arr[mid]) {
+				e  = mid - 1;
+			}else {
 				s = mid + 1;
 			}
 		}
-		while(arr[mid] <= arr[e]) {
-			if(arr[s] <= key <= arr[mid]) {
-				s = mid + 1;
+		else  {
+			//right 
+			if(key >= arr[mid] and key <= arr[e]) {
+				s = mid  + 1;
 			}else {
-				e = mid - 1;
+				e  = mid - 1;
 			}
 		}
 	}
+	return -1;
 }
 
 int main() {
