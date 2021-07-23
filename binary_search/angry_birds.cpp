@@ -3,7 +3,7 @@ using namespace std;
 
 bool canPlaceBirds(int B, int N, vector<int> nests, int sep) {
 	//curent placed birds
-	int birds = 1;
+	int birds = 1;						1, 2, 3, 4, 5, 6, 7
 	//last location
 	int location = nests[0];
 
@@ -24,6 +24,7 @@ bool canPlaceBirds(int B, int N, vector<int> nests, int sep) {
 int main() {
 
 	int B = 3;
+	int ans = 0;
 	vector<int> nests{1, 2, 4, 8, 9};
 	//sorting
 	sort(nests.begin(), nests.end());
@@ -33,6 +34,8 @@ int main() {
 	int s = 0;
 	//gives us the delta the maximum possible ans we can have
 	int e = nests[N-1] - nests[0];
+
+	//we are searching on a monotonic search space
 
 	while(s <= e) {
 		int mid = (s+e)/2;

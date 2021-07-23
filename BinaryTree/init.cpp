@@ -99,6 +99,19 @@ void bfs(Node* root) {
 	return;
 }
 
+void print(Node* root) {
+	//base
+	if(root = NULL) {
+		return;
+	}
+
+	//rec case
+	cout<<root->data<<" ";
+	print(root->left);
+	print(root->right);
+	return;
+}
+
 
 //largest distance between any two nodes in a tree
 int diameter(Node* root) {
